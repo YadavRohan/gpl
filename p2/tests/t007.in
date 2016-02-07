@@ -1,4 +1,0 @@
-record make_sure_your_quoted_strings_can_contain_any_characters
-{
-  password = "! @ # $ % ^ & * ( ) _ + ";
-}
