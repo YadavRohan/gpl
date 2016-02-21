@@ -1,3 +1,5 @@
+# updated 2/14/2016
+
 # This Makefile should work for p3 - p8
 #
 # It makes three assumptions:
@@ -9,7 +11,7 @@
 #     replace "C++SRC = $(wildcard *.cpp)" with a list of files of the form
 #     "C++SRC = file1.cpp file2.cpp file3.cpp"
 #
-# (3) This makefile uses the uname utilility to determine if the current OS 
+# (3) This makefile uses the uname utility to determine if the current OS 
 #     is Linux or OS X.  It expects "$ uname" to return "Linux" on a Linux 
 #     computer and "Darwin" on a Mac
 #
@@ -26,21 +28,25 @@ PHASE := $(notdir $(CURDIR))
 
 # set up the command line options to define pre-processor variables
 # -DSYMBOL_TABLE has same effect of adding "#define SYMBOL_TABLE" to .cpp file
-# these variables are used by my code
-ifeq ($(PHASE),p4)
-  MACRO_DEFINITIONS = -DSYMBOL_TABLE -DPRINT_SYMBOL_TABLE 
-endif
-ifeq ($(PHASE),p5)
-  MACRO_DEFINITIONS = -DSYMBOL_TABLE -DPRINT_SYMBOL_TABLE -DP5
-endif
-ifeq ($(PHASE),p6)
-  MACRO_DEFINITIONS = -DSYMBOL_TABLE -DPRINT_SYMBOL_TABLE -DGRAPHICS -DP5 -DP6
-endif
-ifeq ($(PHASE),p7)
-  MACRO_DEFINITIONS = -DSYMBOL_TABLE -DPRINT_SYMBOL_TABLE -DGRAPHICS -DP5 -DP6 -DP7
-endif
-ifeq ($(PHASE),p8)
+# SYMBOL_TABLE and GRAPHICS are used by my public code
+#   SYMBOL_TABLE turns on the symbol_table for p4-p8
+#   GRAPHICS turns on graphics for p6-p8
+# P5 P6 P7 P8 are used by my private code so I can use the same file for 
+#   multiple phases.  You may use them if you want.
+ifeq ($(PHASE),p3)
+  MACRO_DEFINITIONS = -DP3
+else ifeq ($(PHASE),p4)
+  MACRO_DEFINITIONS = -DSYMBOL_TABLE -DP4
+else ifeq ($(PHASE),p5)
+  MACRO_DEFINITIONS = -DSYMBOL_TABLE -DP5
+else ifeq ($(PHASE),p6)
+  MACRO_DEFINITIONS = -DSYMBOL_TABLE -DGRAPHICS -DP5 -DP6
+else ifeq ($(PHASE),p7)
+  MACRO_DEFINITIONS = -DSYMBOL_TABLE -DGRAPHICS -DP5 -DP6 -DP7
+else ifeq ($(PHASE),p8)
   MACRO_DEFINITIONS = -DSYMBOL_TABLE -DGRAPHICS -DP5 -DP6 -DP7 -DP8
+else
+  PHASE = UNKNOWN PHASE: THIS IS AN ERROR (bad directory name)
 endif
 
 # if this is a Linux computer, set up Linux libraries
@@ -68,7 +74,14 @@ C++OBJ = $(C++SRC:%.cpp=%.o)
 C++DEP = $(C++SRC:%.cpp=%.d)
 
 # compile the gpl executable
+# this Makefile depends on the source being in a directory named
+#   for the current phase (p3, p4, ..., p8).  It will not work if 
+#   it is in a different directory.  PHRASE set to error when the
+#   directory is not a legal directory.
 gpl: y.tab.o lex.yy.o $(C++OBJ)
+	@echo "--------------------------------------------------------------------"
+	@echo " compiling phase $(PHASE) "
+	@echo "--------------------------------------------------------------------"
 	$(CXX) -g -o gpl y.tab.o lex.yy.o $(C++OBJ) $(LIBDIRS) $(LIBS)
 
 # compiling gpl.cpp is phase dependent (MACRO_DEFINITIONS (defined above) 
@@ -81,13 +94,13 @@ y.tab.c y.tab.h: gpl.y
 
 y.tab.o: gpl.y
 	bison -vyd gpl.y
-	$(CXX) $(CPPFLAGS) -w -c y.tab.c
+	$(CXX) $(CPPFLAGS) $(MACRO_DEFINITIONS) -w -c y.tab.c
 
 lex.yy.c: gpl.l
 	flex gpl.l
 
 lex.yy.o: lex.yy.c y.tab.h 
-	$(CXX) $(CPPFLAGS) -c lex.yy.c
+	$(CXX) $(CPPFLAGS) $(MACRO_DEFINITIONS) -c lex.yy.c
 
 # pattern rule to compile all the .cpp files
 %.o : %.cpp

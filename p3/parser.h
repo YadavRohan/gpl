@@ -1,3 +1,5 @@
+// updated 2/14/2016
+
 /*
   ALWAYS include parser.h instead of y.tab.h
 
@@ -20,7 +22,7 @@
 // for each type used in the union, you will need to 
 // put the appropriate include here
 // For example, the union must hold a C++ string, so <string> is included
-//   since it is bad programming practive to include "using namespace std"
+//   since it is bad programming practice to include "using namespace std"
 //   in a .h file, you will have to put "std::string" in the union instead
 //   of "string"
 
