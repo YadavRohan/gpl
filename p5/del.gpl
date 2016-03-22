@@ -1,0 +1,3 @@
+double n = abs(-42.0);
+double o = abs(-42);
+double p = abs(42);
