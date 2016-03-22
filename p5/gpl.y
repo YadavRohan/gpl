@@ -233,7 +233,6 @@ declaration:
     ;
 
 //---------------------------------------------------------------------
-//TODO
 variable_declaration:
     simple_type  T_ID  optional_initializer
     {
@@ -537,7 +536,6 @@ assign_statement:
     ;
 
 //---------------------------------------------------------------------
-//TODO
 variable:
     T_ID
     {
@@ -582,13 +580,7 @@ variable:
              if(sym && (index < 0 || index >= sym->get_size()) )
              {
                 stringstream ss;
-                //TODO remove comment
-                /*
-                ss << $1;
-                ss << "[";
-                */
                 ss << index;
-                //ss << "]";
                 Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, *$1, ss.str());
              }
           }
@@ -607,7 +599,6 @@ variable:
     ;
 
 //---------------------------------------------------------------------
-//TODO
 expression:
     primary_expression
     {
@@ -921,7 +912,6 @@ expression:
 
 //---------------------------------------------------------------------
 primary_expression:
-//TODO
     T_LPAREN  expression T_RPAREN
     {
        $$  = $2;
@@ -959,7 +949,6 @@ geometric_operator:
     ;
 
 //---------------------------------------------------------------------
-//TODO
 math_operator:
     T_SIN
     {

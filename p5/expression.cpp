@@ -40,8 +40,6 @@ Expression::Expression(Expression *lhs, Operator_type oper, Expression *rhs)
    m_rhs = rhs;
    m_oper = oper;
    m_var = NULL;
-   //TODO - for now keep type as INT need to evaluate based on m_lhs and m_rhs
-   //This will depend upon return value of expression
    if(rhs)  //unary operator
    {
       switch(m_oper)
@@ -105,7 +103,6 @@ Expression::Expression(Variable *var)
    m_var = var;
    m_lhs = m_rhs = NULL;
    m_type = var->get_type();
-   //TODO - determine whether we can assign value to m_value depending upon variable type
    m_kinds = VARIABLE;
 }
 
