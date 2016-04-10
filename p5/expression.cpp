@@ -518,12 +518,12 @@ double Expression::eval_double()
    }
    else if(m_kinds == VARIABLE)
    {
-      if(m_type == INT)
+      if(m_type == INT || m_var->get_type() == INT_ARRAY)
       {
          double val = (double)eval_int();
          return val;
       }
-      else if(m_var && m_var->get_type() == DOUBLE)
+      else if(m_var && (m_var->get_type() == DOUBLE || m_var->get_type() == DOUBLE_ARRAY) )
       {
          return m_var->get_double_value();
       }
@@ -557,7 +557,7 @@ string Expression::eval_string()
          ss << val;
          return ss.str();
       }
-      else if(m_type == STRING)
+      else if(m_type == STRING || m_type == STRING_ARRAY)
       {
          return *(m_value.string_value);
       }
@@ -608,7 +608,7 @@ string Expression::eval_string()
          return ss.str();
       }
       else if(m_var->get_type() == STRING ||
-              m_var->get_type() == STRING
+              m_var->get_type() == STRING_ARRAY
              )
       {
          return m_var->get_string_value();
