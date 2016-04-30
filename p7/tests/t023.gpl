@@ -1,0 +1,9 @@
+int i = 7000;
+rectangle rect[5];
+
+on akey
+{
+  i = 2;
+  // should not be an error
+  rect[i].x = 21;
+}
