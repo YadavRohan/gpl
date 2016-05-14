@@ -1,0 +1,4 @@
+initialization
+{
+    print("initialization block was executed");
+}

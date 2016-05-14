@@ -1,0 +1,2 @@
+Semantic error on line 6: Operand 'i' must be a Game_object (circle, rectangle, triangle, etc.)
+Semantic error on line 6: Operand 'y' must be a Game_object (circle, rectangle, triangle, etc.)
